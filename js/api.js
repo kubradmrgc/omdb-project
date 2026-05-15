@@ -1,74 +1,34 @@
 import { API_KEY } from "./config.js";
 
 const BASE_URL = "https://www.omdbapi.com/";
-const PLACEHOLDER_POSTER = "assets/poster-placeholder.svg";
+export const PLACEHOLDER_POSTER = "assets/poster-placeholder.svg";
 
-/** @type {Map<string, object>} */
+/** @type {Map<string, unknown>} */
 const cache = new Map();
 
-let activeController = null;
+/** Only cancels the previous list search, not parallel detail requests */
+let searchAbortController = null;
 
-/**
- * Builds a stable cache key from search params.
- * @param {{ title: string, year?: string, type?: string }} params
- */
-function cacheKey(params) {
-  return JSON.stringify({
-    title: params.title.trim().toLowerCase(),
-    year: params.year?.trim() || "",
-    type: params.type?.trim() || "",
-  });
-}
-
-/**
- * @param {{ title: string, year?: string, type?: string }} params
- * @returns {Promise<object>}
- */
-export async function fetchMovie(params) {
-  const title = params.title?.trim();
-  if (!title) {
-    throw new Error("EMPTY_SEARCH");
-  }
-
+function assertApiKey() {
   if (!API_KEY || API_KEY === "YOUR_API_KEY_HERE") {
     throw new Error("MISSING_API_KEY");
   }
+}
 
-  const key = cacheKey(params);
-  if (cache.has(key)) {
-    return cache.get(key);
-  }
-
-  if (activeController) {
-    activeController.abort();
-  }
-  activeController = new AbortController();
-
-  const url = new URL(BASE_URL);
-  url.searchParams.set("apikey", API_KEY);
-  url.searchParams.set("t", title);
-  if (params.year?.trim()) {
-    url.searchParams.set("y", params.year.trim());
-  }
-  if (params.type?.trim()) {
-    url.searchParams.set("type", params.type.trim());
-  }
-
+/**
+ * @param {URL} url
+ * @param {AbortSignal} [signal]
+ */
+async function fetchJson(url, signal) {
   let response;
   try {
-    response = await fetch(url.toString(), { signal: activeController.signal });
+    response = await fetch(url.toString(), { signal });
   } catch (err) {
-    if (err.name === "AbortError") {
-      throw err;
-    }
+    if (err.name === "AbortError") throw err;
     throw new Error("NETWORK_ERROR");
-  } finally {
-    activeController = null;
   }
 
-  if (!response.ok) {
-    throw new Error("HTTP_ERROR");
-  }
+  if (!response.ok) throw new Error("HTTP_ERROR");
 
   let data;
   try {
@@ -78,23 +38,89 @@ export async function fetchMovie(params) {
   }
 
   if (data.Response === "False") {
-    const message = data.Error || "Movie not found!";
-    throw new Error(message);
+    throw new Error(data.Error || "Movie not found!");
   }
 
+  return data;
+}
+
+/**
+ * @param {{ title: string, year?: string, type?: string, page?: number }} params
+ */
+export async function searchMovies(params) {
+  const title = params.title?.trim();
+  if (!title) throw new Error("EMPTY_SEARCH");
+  assertApiKey();
+
+  const key = `search:${JSON.stringify(params)}`;
+  if (cache.has(key)) return cache.get(key);
+
+  if (searchAbortController) {
+    searchAbortController.abort();
+  }
+  searchAbortController = new AbortController();
+  const { signal } = searchAbortController;
+
+  const url = new URL(BASE_URL);
+  url.searchParams.set("apikey", API_KEY);
+  url.searchParams.set("s", title);
+  url.searchParams.set("page", String(params.page || 1));
+  if (params.type?.trim()) url.searchParams.set("type", params.type.trim());
+  if (params.year?.trim()) url.searchParams.set("y", params.year.trim());
+
+  try {
+    const data = await fetchJson(url, signal);
+    cache.set(key, data);
+    return data;
+  } finally {
+    if (searchAbortController?.signal === signal) {
+      searchAbortController = null;
+    }
+  }
+}
+
+/**
+ * @param {string} imdbId
+ */
+export async function fetchMovieById(imdbId) {
+  if (!imdbId) throw new Error("INVALID_ID");
+  assertApiKey();
+
+  const key = `id:${imdbId}`;
+  if (cache.has(key)) return cache.get(key);
+
+  const url = new URL(BASE_URL);
+  url.searchParams.set("apikey", API_KEY);
+  url.searchParams.set("i", imdbId);
+
+  const data = await fetchJson(url);
   cache.set(key, data);
   return data;
 }
 
 /**
- * @param {string} posterUrl
- * @returns {string}
+ * @param {{ title: string, year?: string, type?: string }} params
  */
-export function resolvePosterUrl(posterUrl) {
-  if (!posterUrl || posterUrl === "N/A") {
-    return PLACEHOLDER_POSTER;
-  }
-  return posterUrl;
+export async function fetchMovie(params) {
+  const title = params.title?.trim();
+  if (!title) throw new Error("EMPTY_SEARCH");
+  assertApiKey();
+
+  const key = `title:${JSON.stringify(params)}`;
+  if (cache.has(key)) return cache.get(key);
+
+  const url = new URL(BASE_URL);
+  url.searchParams.set("apikey", API_KEY);
+  url.searchParams.set("t", title);
+  if (params.year?.trim()) url.searchParams.set("y", params.year.trim());
+  if (params.type?.trim()) url.searchParams.set("type", params.type.trim());
+
+  const data = await fetchJson(url);
+  cache.set(key, data);
+  return data;
 }
 
-export { PLACEHOLDER_POSTER };
+export function resolvePosterUrl(posterUrl) {
+  if (!posterUrl || posterUrl === "N/A") return PLACEHOLDER_POSTER;
+  return posterUrl;
+}

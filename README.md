@@ -7,7 +7,6 @@ OMDB API kullanan tek sayfalık film arama uygulaması. Ödev şablonundan oluş
 **https://kubradmrgc.github.io/omdb-project/**
 
 > GitHub Pages’i aşağıdaki adımlarla etkinleştirdikten sonra bu adres çalışır.
-
 ## Özellikler
 
 - Film adı ile arama (Enter veya Ara butonu)
