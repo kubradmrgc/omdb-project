@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="OMDB API ile film arama uygulaması">
+  <title>Film Ara — OMDB</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <h1 class="header__title">Film Ara</h1>
+      <p class="header__subtitle">OMDB veritabanından film bilgilerine ulaşın</p>
+    </header>
+
+    <main class="main">
+      <section class="search-panel" aria-labelledby="search-heading">
+        <h2 id="search-heading" class="visually-hidden">Film arama</h2>
+        <form id="searchForm" class="search-form" novalidate>
+          <div class="search-form__row">
+            <label class="field field--grow" for="searchInput">
+              <span class="field__label">Film adı</span>
+              <input
+                type="search"
+                id="searchInput"
+                name="title"
+                class="field__input"
+                placeholder="Örn. Inception, Matrix..."
+                autocomplete="off"
+                required
+              >
+            </label>
+            <button type="submit" id="searchBtn" class="btn btn--primary">
+              Ara
+            </button>
+          </div>
+
+          <div class="filters" aria-label="Arama filtreleri">
+            <label class="field field--filter" for="typeFilter">
+              <span class="field__label">Tür</span>
+              <select id="typeFilter" name="type" class="field__select">
+                <option value="">Tümü</option>
+                <option value="movie">Film</option>
+                <option value="series">Dizi</option>
+                <option value="episode">Bölüm</option>
+              </select>
+            </label>
+            <label class="field field--filter" for="yearFilter">
+              <span class="field__label">Yıl</span>
+              <input
+                type="number"
+                id="yearFilter"
+                name="year"
+                class="field__input field__input--year"
+                placeholder="Örn. 2010"
+                min="1888"
+                max="2099"
+                inputmode="numeric"
+              >
+            </label>
+          </div>
+        </form>
+      </section>
+
+      <div id="loading" class="status status--loading" hidden aria-live="polite">
+        <span class="spinner" aria-hidden="true"></span>
+        <span>Aranıyor…</span>
+      </div>
+
+      <div id="error" class="status status--error" hidden role="alert" aria-live="assertive">
+        <p id="errorMessage" class="status__text"></p>
+      </div>
+
+      <section id="results" class="results" hidden aria-live="polite">
+        <article id="movieDetail" class="movie-card">
+          <div class="movie-card__poster-wrap">
+            <img id="poster" class="movie-card__poster" src="" alt="" width="300" height="450">
+          </div>
+          <div class="movie-card__body">
+            <h2 id="title" class="movie-card__title"></h2>
+            <dl class="movie-card__meta">
+              <div class="movie-card__meta-row">
+                <dt>Yıl</dt>
+                <dd id="year"></dd>
+              </div>
+              <div class="movie-card__meta-row">
+                <dt>Tür</dt>
+                <dd id="genre"></dd>
+              </div>
+              <div class="movie-card__meta-row">
+                <dt>Yönetmen</dt>
+                <dd id="director"></dd>
+              </div>
+            </dl>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>Veriler <a href="https://www.omdbapi.com/" target="_blank" rel="noopener noreferrer">OMDB API</a> üzerinden sağlanır.</p>
+    </footer>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

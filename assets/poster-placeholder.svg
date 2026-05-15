@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="450" viewBox="0 0 300 450" role="img" aria-label="Poster yok">
+  <rect width="300" height="450" fill="#1a1d29"/>
+  <rect x="20" y="20" width="260" height="410" rx="8" fill="#2a2f42" stroke="#3d4460" stroke-width="2"/>
+  <circle cx="150" cy="180" r="40" fill="#3d4460"/>
+  <path d="M90 320 L150 260 L210 320 L240 290 L240 390 L60 390 L60 300 Z" fill="#3d4460"/>
+  <text x="150" y="420" text-anchor="middle" fill="#8b93b0" font-family="system-ui,sans-serif" font-size="14">Poster yok</text>
+</svg>
