@@ -1,77 +1,125 @@
-# Film Ara — OMDB SPA
+<div align="center">
 
-OMDB API kullanan tek sayfalık film arama uygulaması. Ödev şablonundan oluşturulan kendi deposunuz için hazırlanmıştır.
+![Film Ara — OMDB Movie Search](assets/readme-banner.svg)
 
-## Canlı demo (GitHub Pages)
+<br/>
+
+[![Live Demo](https://img.shields.io/badge/Demo-GitHub%20Pages-e040a0?style=for-the-badge&logo=github&logoColor=white)](https://kubradmrgc.github.io/omdb-project/)
+[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
+[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
+[![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![OMDB API](https://img.shields.io/badge/OMDB-API-7c52aa?style=for-the-badge)](https://www.omdbapi.com/)
+
+**OMDB veritabanından film arayan, modern ve responsive tek sayfalık web uygulaması.**
+
+[Canlı siteyi aç](https://kubradmrgc.github.io/omdb-project/) · [Kaynak kod](https://github.com/kubradmrgc/omdb-project)
+
+</div>
+
+---
+
+## Önizleme
+
+| Arama & filtreler | Sonuçlar & detay |
+|:---:|:---:|
+| Grid arama, tür/yıl filtreleri, CineCandy arayüzü | Film kartları, hero detay sayfası, hata ekranı |
+
+---
+
+## Özellikler
+
+- **Arama** — Film adı + Enter veya Ara butonu  
+- **Filtreler** — Tür (film / dizi / bölüm), yıl aralığı, tür etiketleri  
+- **Sonuç grid’i** — Poster, puan, yıl ve tür rozetleri  
+- **Detay sayfası** — Başlık, yıl, tür, yönetmen, poster, özet, IMDb linki  
+- **Hata ekranı** — Film bulunamadığında özel tasarım + öneriler  
+- **Kalıcılık** — URL parametreleri + `localStorage` (sayfa yenilemede son arama)  
+- **Responsive** — Mobil ve masaüstü uyumlu  
+
+---
+
+## Canlı demo
 
 **https://kubradmrgc.github.io/omdb-project/**
 
-> GitHub Pages’i aşağıdaki adımlarla etkinleştirdikten sonra bu adres çalışır.
-## Özellikler
+---
 
-- Film adı ile arama (Enter veya Ara butonu)
-- Bonus filtreler: tür (film / dizi / bölüm) ve yıl
-- Arama sonuçları grid’i, film detay sayfası ve “film bulunamadı” ekranı
-- Hata yönetimi (film bulunamadı, ağ hatası, boş arama)
-- Sayfa yenilemeden çoklu arama
-- Son aramanın URL ve `localStorage` ile korunması
-- Responsive tasarım
+## Hızlı başlangıç
 
-## Kurulum
+### 1. Depoyu klonlayın
 
-### 1. OMDB API anahtarı
-
-1. [omdbapi.com/apikey.aspx](https://www.omdbapi.com/apikey.aspx) adresinden ücretsiz anahtar alın.
-2. `js/config.example.js` dosyasını `js/config.js` olarak kopyalayın (veya mevcut `config.js` dosyasını düzenleyin).
-3. `YOUR_API_KEY_HERE` değerini kendi anahtarınızla değiştirin.
-
-```js
-export const API_KEY = "abc12345";
+```bash
+git clone git@github.com:kubradmrgc/omdb-project.git
+cd omdb-project
 ```
 
-> `js/config.js` `.gitignore` içindedir. Pages’te sitenin çalışması için deploy öncesi `config.js` içine anahtarınızı ekleyip tek seferlik commit/push gerekebilir (statik sitede anahtar tarayıcıda görünür).
+### 2. OMDB API anahtarı
 
-### 2. Yerel çalıştırma
+1. Ücretsiz anahtar: [omdbapi.com/apikey.aspx](https://www.omdbapi.com/apikey.aspx)  
+2. `js/config.example.js` → `js/config.js` kopyalayın  
+3. Anahtarınızı yazın:
+
+```js
+export const API_KEY = "sizin_anahtariniz";
+```
+
+### 3. Yerel çalıştırma
 
 ```bash
 npx serve .
 ```
 
-Tarayıcıda sunucunun verdiği adresi açın (örn. `http://localhost:3000`).
+Tarayıcıda sunucunun verdiği adresi açın.
+
+---
 
 ## GitHub Pages
 
-1. Depo → **Settings** → **Pages**
-2. **Source:** Deploy from a branch → Branch: **`main`** → Folder: **`/ (root)`** → **Save**
-3. Birkaç dakika sonra: `https://kubradmrgc.github.io/omdb-project/`
+1. **Settings** → **Pages**  
+2. **Source:** Deploy from a branch → **`main`** → **`/ (root)`**  
+3. **Custom domain** — boş bırakın (ödev için gerekmez)  
+4. Yayın adresi: `https://kubradmrgc.github.io/omdb-project/`
 
-## SSH ile klon / push
-
-```bash
-git clone git@github.com:kubradmrgc/omdb-project.git
-```
+---
 
 ## Proje yapısı
 
 ```
+omdb-project/
 ├── index.html
 ├── css/styles.css
 ├── js/
-│   ├── app.js, api.js, state.js, ui.js
-│   ├── detail-render.js, error-render.js
-│   └── config.js          # anahtar (gitignore — yerelde oluşturun)
+│   ├── app.js              # Uygulama akışı
+│   ├── api.js              # OMDB istekleri
+│   ├── state.js            # URL + localStorage
+│   ├── ui.js               # Arayüz güncellemeleri
+│   ├── detail-render.js    # Detay sayfası şablonu
+│   ├── error-render.js     # Hata / bulunamadı ekranı
+│   └── config.js           # API anahtarı
 ├── assets/
+│   ├── readme-banner.svg
+│   └── poster-placeholder.svg
 └── README.md
 ```
 
+---
+
 ## Test kontrol listesi
 
-- Boş arama → uyarı
-- Geçerli film → sonuçlar ve detay
-- Olmayan film → özelleştirilmiş hata ekranı
-- Sayfa yenile → son arama korunur
-- GitHub Pages URL’si açılıyor
+- [ ] Boş arama → uyarı  
+- [ ] Geçerli film (ör. `inception`) → sonuçlar + detay  
+- [ ] Olmayan film → özelleştirilmiş hata ekranı  
+- [ ] Sayfa yenile → son arama korunur  
+- [ ] GitHub Pages URL’si çalışıyor  
 
-## Lisans
+---
 
-Eğitim / değerlendirme amaçlı proje.
+## Geliştirici
+
+**kubradmrgc** — Web geliştirme ödevi · OMDB SPA
+
+---
+
+<p align="center">
+  <sub>Veriler <a href="https://www.omdbapi.com/">OMDB API</a> üzerinden sağlanır.</sub>
+</p>

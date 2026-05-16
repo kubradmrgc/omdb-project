@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="320" viewBox="0 0 1200 320" role="img" aria-label="Film Ara - OMDB Movie Search">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fef7ff"/>
+      <stop offset="45%" stop-color="#ffd6ee"/>
+      <stop offset="100%" stop-color="#eedcff"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e040a0"/>
+      <stop offset="100%" stop-color="#7c52aa"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#e040a0" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <rect width="1200" height="320" fill="url(#bg)"/>
+  <circle cx="100" cy="80" r="120" fill="#e040a0" opacity="0.08"/>
+  <circle cx="1100" cy="260" r="140" fill="#7c52aa" opacity="0.1"/>
+  <circle cx="1050" cy="60" r="60" fill="#40c0ee" opacity="0.12"/>
+  <!-- Film strip -->
+  <g opacity="0.15" fill="#2e1a28">
+    <rect x="40" y="40" width="180" height="28" rx="6"/>
+    <rect x="52" y="48" width="14" height="12" rx="2"/>
+    <rect x="72" y="48" width="14" height="12" rx="2"/>
+    <rect x="92" y="48" width="14" height="12" rx="2"/>
+    <rect x="112" y="48" width="14" height="12" rx="2"/>
+    <rect x="132" y="48" width="14" height="12" rx="2"/>
+    <rect x="152" y="48" width="14" height="12" rx="2"/>
+    <rect x="172" y="48" width="14" height="12" rx="2"/>
+    <rect x="192" y="48" width="14" height="12" rx="2"/>
+  </g>
+  <!-- Popcorn bucket icon -->
+  <g transform="translate(920 70)" filter="url(#shadow)">
+    <path d="M60 140 L20 60 L100 60 Z" fill="#e040a0"/>
+    <ellipse cx="60" cy="58" rx="42" ry="14" fill="#f080c0"/>
+    <circle cx="35" cy="35" r="10" fill="#fff" opacity="0.9"/>
+    <circle cx="55" cy="25" r="12" fill="#fff" opacity="0.85"/>
+    <circle cx="78" cy="38" r="9" fill="#fff" opacity="0.9"/>
+    <circle cx="48" cy="48" r="8" fill="#fff" opacity="0.8"/>
+    <circle cx="70" cy="52" r="7" fill="#fff" opacity="0.75"/>
+  </g>
+  <!-- Main card -->
+  <rect x="80" y="70" width="720" height="180" rx="24" fill="#ffffff" opacity="0.92" filter="url(#shadow)"/>
+  <rect x="80" y="70" width="720" height="8" rx="24" fill="url(#accent)"/>
+  <text x="120" y="145" font-family="system-ui, Segoe UI, sans-serif" font-size="56" font-weight="900" fill="#2e1a28" font-style="italic">Film Ara</text>
+  <text x="122" y="185" font-family="system-ui, Segoe UI, sans-serif" font-size="22" font-weight="600" fill="#7c52aa">OMDB ile film ke_fet</text>
+  <text x="122" y="218" font-family="system-ui, Segoe UI, sans-serif" font-size="16" fill="#604868">Arama · Filtreler · Detay · GitHub Pages</text>
+  <!-- Badges row -->
+  <rect x="120" y="235" width="88" height="28" rx="14" fill="#ffd6ee"/>
+  <text x="164" y="254" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" font-weight="700" fill="#a02070">HTML</text>
+  <rect x="218" y="235" width="72" height="28" rx="14" fill="#eedcff"/>
+  <text x="254" y="254" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" font-weight="700" fill="#4a3068">CSS</text>
+  <rect x="300" y="235" width="100" height="28" rx="14" fill="#c8eaff"/>
+  <text x="350" y="254" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" font-weight="700" fill="#005580">JavaScript</text>
+  <rect x="410" y="235" width="110" height="28" rx="14" fill="url(#accent)"/>
+  <text x="465" y="254" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" font-weight="700" fill="#ffffff">OMDB API</text>
+  <!-- Stars -->
+  <g fill="#e040a0" opacity="0.6">
+    <polygon points="780,100 785,115 800,115 788,124 793,139 780,130 767,139 772,124 760,115 775,115"/>
+    <polygon points="820,130 823,138 832,138 825,143 828,151 820,146 812,151 815,143 808,138 817,138"/>
+    <polygon points="850,90 853,98 862,98 855,103 858,111 850,106 842,111 845,103 838,98 847,98"/>
+  </g>
+</svg>
